@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using projectef;
 
@@ -11,9 +12,11 @@ using projectef;
 namespace projectef.Migrations
 {
     [DbContext(typeof(TareasContext))]
-    partial class TareasContextModelSnapshot : ModelSnapshot
+    [Migration("20241218151054_ColumPesoCategoria")]
+    partial class ColumPesoCategoria
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,14 +27,12 @@ namespace projectef.Migrations
 
             modelBuilder.Entity("projectef.Models.Categoria", b =>
                 {
-                    b.Property<Guid>("CategoriaId")
+                    b.Property<Guid>("CategoriID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CategoriID")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Descripcion")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nombre")
@@ -42,25 +43,9 @@ namespace projectef.Migrations
                     b.Property<int>("Peso")
                         .HasColumnType("int");
 
-                    b.HasKey("CategoriaId");
+                    b.HasKey("CategoriID");
 
                     b.ToTable("Categoria", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            CategoriaId = new Guid("429e610a-0a26-4790-9de3-58be1f6c0828"),
-                            CategoriID = new Guid("00000000-0000-0000-0000-000000000000"),
-                            Nombre = "Actividades Pendientes",
-                            Peso = 20
-                        },
-                        new
-                        {
-                            CategoriaId = new Guid("429e610a-0a26-4790-9de3-58be1f6c0802"),
-                            CategoriID = new Guid("00000000-0000-0000-0000-000000000000"),
-                            Nombre = "Actividades Personales",
-                            Peso = 50
-                        });
                 });
 
             modelBuilder.Entity("projectef.Models.Tarea", b =>
@@ -69,12 +54,7 @@ namespace projectef.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Autor")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<Guid>("CategoriaId")
+                    b.Property<Guid>("CategoriId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Descripcion")
@@ -93,36 +73,16 @@ namespace projectef.Migrations
 
                     b.HasKey("TareaId");
 
-                    b.HasIndex("CategoriaId");
+                    b.HasIndex("CategoriId");
 
                     b.ToTable("Tarea", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            TareaId = new Guid("429e610a-0a26-4790-9de3-58be1f6c08b7"),
-                            Autor = "Maycol",
-                            CategoriaId = new Guid("429e610a-0a26-4790-9de3-58be1f6c0828"),
-                            FechaCreacion = new DateTime(2024, 12, 18, 14, 19, 51, 594, DateTimeKind.Local).AddTicks(1887),
-                            PrioridadTarea = 1,
-                            Titulo = "Revisar pago servicios publicos"
-                        },
-                        new
-                        {
-                            TareaId = new Guid("429e610a-0a26-4790-9de3-58be1f6c0844"),
-                            Autor = "Maycol",
-                            CategoriaId = new Guid("429e610a-0a26-4790-9de3-58be1f6c0802"),
-                            FechaCreacion = new DateTime(2024, 12, 18, 14, 19, 51, 594, DateTimeKind.Local).AddTicks(1900),
-                            PrioridadTarea = 2,
-                            Titulo = "Salir con amigos"
-                        });
                 });
 
             modelBuilder.Entity("projectef.Models.Tarea", b =>
                 {
                     b.HasOne("projectef.Models.Categoria", "Categoria")
                         .WithMany("Tareas")
-                        .HasForeignKey("CategoriaId")
+                        .HasForeignKey("CategoriId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

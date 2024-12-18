@@ -12,10 +12,11 @@ namespace projectef.Models
         //[Key]
         public Guid TareaId {get;set;}
         //[ForeignKey("Categoria")]
-        public Guid CategoriId {get;set;}
+        public Guid CategoriaId {get;set;}
         //[Required]
         //[MaxLength(200)]
         public string Titulo {get;set;}
+        public string Autor {get;set;}
         public string Descripcion {get;set;}
         public Prioridad PrioridadTarea {get;set;}
         public DateTime FechaCreacion {get;set;}
