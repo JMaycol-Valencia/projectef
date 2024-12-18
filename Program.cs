@@ -61,4 +61,19 @@ app.MapPut("/api/update/{id}", async ([FromServices] TareasContext dbContext, [F
     return Results.NotFound("ELEMENTO NO ENCONTRADO");
 });
 
+app.MapDelete("/api/delete/{id}", async ([FromServices] TareasContext dbContext, [FromRoute] Guid id) =>
+{
+    var tareaActual = dbContext.Tareas.Find(id);
+
+    if(tareaActual != null)
+    {
+        dbContext.Remove(tareaActual);
+        await dbContext.SaveChangesAsync();
+
+        return Results.Ok();
+    }
+
+    return Results.NotFound("ELEMENTO NO ENCONTRADO PARA ELIMINAR");
+});
+
 app.Run();
