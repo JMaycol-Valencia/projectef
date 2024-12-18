@@ -21,11 +21,12 @@ app.MapGet("/api/tareas", async ([FromServices] TareasContext dbContext) =>
 {
     //FILTRO POR PRORIDAD
     //return Results.Ok(dbContext.Tareas.Include(p => p.Categoria).Where(p => p.PrioridadTarea == projectef.Models.Prioridad.Alta));
-    
+
     //FILTRO INCLUYENDO CATEGORIA DETALLADA
     return Results.Ok(dbContext.Tareas.Include(p => p.Categoria));
     
 });
+
 app.MapPost("/api/carga", async ([FromServices] TareasContext dbContext, [FromBody] Tarea tarea) =>
 {
     tarea.TareaId = Guid.NewGuid();
@@ -40,6 +41,24 @@ app.MapPost("/api/carga", async ([FromServices] TareasContext dbContext, [FromBo
 
     return Results.Ok();
     
+});
+
+app.MapPut("/api/update/{id}", async ([FromServices] TareasContext dbContext, [FromBody] Tarea tarea, [FromRoute] Guid id) =>
+{
+    var tareaActual = dbContext.Tareas.Find(id);
+
+    if(tareaActual != null)
+    {
+        tareaActual.CategoriID = tarea.CategoriID;
+        tareaActual.Titulo = tarea.Titulo;
+        tareaActual.PrioridadTarea = tarea.PrioridadTarea;
+        tareaActual.Descripcion = tarea.Descripcion;
+
+        await dbContext.SaveChangesAsync();
+
+        return Results.Ok();
+    }
+    return Results.NotFound("ELEMENTO NO ENCONTRADO");
 });
 
 app.Run();
