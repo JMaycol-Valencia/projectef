@@ -17,13 +17,13 @@ namespace projectef
         {
             //CREANDO LA COLECCION DE NUEVOS REGISTROS MANUALMENTE
             List<Categoria> categoriaInit = new List<Categoria>();
-            categoriaInit.Add(new Categoria(){ CategoriaId = Guid.Parse("429e610a-0a26-4790-9de3-58be1f6c0828"), Nombre="Actividades Pendientes", Peso = 20});
-            categoriaInit.Add(new Categoria(){ CategoriaId = Guid.Parse("429e610a-0a26-4790-9de3-58be1f6c0802"), Nombre="Actividades Personales", Peso = 50});
+            categoriaInit.Add(new Categoria(){ CategoriID = Guid.Parse("429e610a-0a26-4790-9de3-58be1f6c0828"), Nombre="Actividades Pendientes", Peso = 20});
+            categoriaInit.Add(new Categoria(){ CategoriID = Guid.Parse("429e610a-0a26-4790-9de3-58be1f6c0802"), Nombre="Actividades Personales", Peso = 50});
             
             modelBuilder.Entity<Categoria>(categoria => 
             {
                 categoria.ToTable("Categoria");
-                categoria.HasKey(p => p.CategoriaId);
+                categoria.HasKey(p => p.CategoriID);
                 categoria.Property(p => p.Nombre).IsRequired().HasMaxLength(150);
                 categoria.Property(p => p.Descripcion).IsRequired(false);
                 categoria.Property(p => p.Peso);
@@ -34,14 +34,14 @@ namespace projectef
 
             //CREANDO LA COLECCION DE NUEVOS REGISTROS MANUALMENTE
             List<Tarea> tareasInit = new List<Tarea>();
-            tareasInit.Add(new Tarea () {TareaId = Guid.Parse("429e610a-0a26-4790-9de3-58be1f6c08B7"), CategoriaId = Guid.Parse("429e610a-0a26-4790-9de3-58be1f6c0828"), PrioridadTarea = Prioridad.Media, Titulo = "Revisar pago servicios publicos", FechaCreacion = DateTime.Now, Autor = "Maycol"});
-            tareasInit.Add(new Tarea () {TareaId = Guid.Parse("429e610a-0a26-4790-9de3-58be1f6c0844"), CategoriaId = Guid.Parse("429e610a-0a26-4790-9de3-58be1f6c0802"), PrioridadTarea = Prioridad.Alta, Titulo = "Salir con amigos", FechaCreacion = DateTime.Now, Autor = "Maycol"});
+            tareasInit.Add(new Tarea () {TareaId = Guid.Parse("429e610a-0a26-4790-9de3-58be1f6c08B7"), CategoriID = Guid.Parse("429e610a-0a26-4790-9de3-58be1f6c0828"), PrioridadTarea = Prioridad.Media, Titulo = "Revisar pago servicios publicos", FechaCreacion = DateTime.Now, Autor = "Maycol"});
+            tareasInit.Add(new Tarea () {TareaId = Guid.Parse("429e610a-0a26-4790-9de3-58be1f6c0844"), CategoriID = Guid.Parse("429e610a-0a26-4790-9de3-58be1f6c0802"), PrioridadTarea = Prioridad.Alta, Titulo = "Salir con amigos", FechaCreacion = DateTime.Now, Autor = "Maycol"});
 
             modelBuilder.Entity<Tarea>(tarea => 
             {
                 tarea.ToTable("Tarea");
                 tarea.HasKey(p => p.TareaId);
-                tarea.HasOne(p => p.Categoria).WithMany(p => p.Tareas).HasForeignKey(p => p.CategoriaId);
+                tarea.HasOne(p => p.Categoria).WithMany(p => p.Tareas).HasForeignKey(p => p.CategoriID);
                 tarea.Property(p => p.Titulo).IsRequired().HasMaxLength(200);
                 tarea.Property(p => p.Autor).IsRequired().HasMaxLength(50);
                 tarea.Property(p => p.Descripcion).IsRequired(false);
